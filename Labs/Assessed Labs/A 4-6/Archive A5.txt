@@ -1,0 +1,69 @@
+--TEMPLATE FILE FOR COURSEWORK 1 for COMP2209
+--Julian Rathke, Oct 2021
+
+--EXERCISE A5 ONLY
+
+--CONTAINS FUNCTION REQIURED FOR COMPILATION AGAINST THE TEST SUITE
+--MODIFY THE FUNCTION DEFINITIONS WITH YOUR OWN SOLUTIONS
+--IMPORTANT : DO NOT MODIFY ANY FUNCTION TYPES
+
+
+module Exercises (findBonding, removeItem, allPossibleMatches, helper) where
+
+import Data.List
+import Data.Maybe
+
+-- Exercise A5
+--findBonding :: Eq a => (a -> a -> Bool) -> [a] -> Maybe [(a,a)]
+
+--findBonding p xs = 
+
+removeItem _ [] = []
+removeItem x (y:ys) | x == y = removeItem x ys
+                    | otherwise = y : removeItem x ys
+
+allPossibleMatches :: (a -> a -> Bool) -> a -> [a] -> [a]
+allPossibleMatches p x xs = filter (p x) xs
+
+helper :: Eq a => (a -> a -> Bool) -> [a] -> [[(a,a)]]
+helper p [] = [[]]
+helper p (x:xs) = [(x,mx):(mx,x):rest | mx <- allPossibleMatches p x xs, rest <- helper p (removeItem mx xs)]
+
+findBonding :: Eq a => (a -> a -> Bool) -> [a] -> Maybe[(a,a)]
+
+-- if empty list listToMaybe turns it to a Nothing type or to a Just if not empty
+findBonding p xs = (listToMaybe . helper p) xs
+
+
+
+
+{-
+findBondingPair :: Eq a => (a -> a -> Bool) -> a -> [a] -> Maybe [(a,a)]
+findBondingPair p x [] = Nothing
+findBondingPair p x (y:ys) | p x y = [(x,y),(y,x)] ++ findBondingPair p (head ys) (tail ys)
+                           | otherwise = findBondingPair p x ys   
+-}
+
+{-
+allPossibleMatches :: Eq a => (a -> a -> Bool) -> a -> [a] -> [a]
+allPossibleMatches p x xs = filter (p x) xs
+
+maches :: Eq a => (a -> a -> Bool) -> [(a,a)] -> [a] -> [[(a,a)]]
+
+maches p acc (x:xs) = [ maches p ((y,x):(x,y):acc) (delete y xs) | y <- allPossibleMatches p x xs] 
+-}
+
+{-
+allPossibleMatches :: Eq a => (a -> a -> Bool) -> a -> [a] -> [a]
+allPossibleMatches p x xs = filter (p x) xs
+
+maches :: Eq a => (a -> a -> Bool) -> [a] -> [(a,a)] -> Maybe [(a,a)]
+
+maches p acc l@(x:xs) | length l `mod` 2 != 0 = Nothing
+                      | allPossibleMatches p x xs == [] = "Just go to next backtrack"
+
+maches p acc (x:xs) = take 1 [ maches p ((y,x):(x,y):acc) (delete y xs) | y <- allPossibleMatches p x xs] 
+-}
+--findBonding = Nothing
+
+

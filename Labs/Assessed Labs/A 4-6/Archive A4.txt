@@ -1,0 +1,61 @@
+--TEMPLATE FILE FOR COURSEWORK 1 for COMP2209
+--Julian Rathke, Oct 2021
+
+--EXERCISE A4 ONLY
+
+--CONTAINS FUNCTION REQIURED FOR COMPILATION AGAINST THE TEST SUITE
+--MODIFY THE FUNCTION DEFINITIONS WITH YOUR OWN SOLUTIONS
+--IMPORTANT : DO NOT MODIFY ANY FUNCTION TYPES
+
+
+module Exercises (neighbours) where
+
+import Data.List
+import Data.Function (on)
+import Data.List (sortBy)
+
+type Point a = (a,a)
+type Metric a = (Point a) -> (Point a) -> Double
+
+-- Exercise A4
+
+neighbours :: Int -> Metric a -> Point a -> [Point a] -> [Point a]
+-- k neareatl neighbours to point acordif to metric d
+
+c :: Ord a => (a,b) -> (a,b) -> Ordering
+c (a,_) (b,_) | a < b = LT
+              | a > b = GT
+              | otherwise = EQ
+
+
+neighbours 0 m p ps = []
+neighbours k m p [] = []
+neighbours k m p ps | k < 0 = error "Taking negative amounts of Points "
+                    | otherwise = take (min k (length ps)) (map snd (sortBy c (zip (map (m p) ps) ps)))
+
+{-
+neighbours 0 m p ps = []
+neighbours k m p [] = []
+neighbours k m p ps | k < 0 = error "Taking negative amounts of Points "
+                    | otherwise =  map snd [    (sortBy c (zip (map (m p) ps) ps))    !!i  | i <- [0..(min k (length ps) )-1] ]
+
+-}
+
+
+--m :: Floating a => (a,a) -> (a,a) -> a
+--m (a,b) (c,d) = sqrt ( (a-c)^2 + (b-d)^2 )
+
+--ps = [ (4,5),(-3,7),(-9,-4),(7,-2) ]
+
+{-
+neighbours 0 m p ps = []
+neighbours k m p ps | k < 0 = error "Taking negative amounts of Points "
+                    | k == 0 = []
+                    | length ps == 0 = []
+                    | k > length ps = let s = length ps in 
+                                          map snd [    (sortBy c (zip (map (m p) ps) ps))    !!i      | i <- [0..s-1] ]
+
+                    | otherwise =  map snd [    (sortBy c (zip (map (m p) ps) ps))    !!i      | i <- [0..k-1] ]
+
+
+-}

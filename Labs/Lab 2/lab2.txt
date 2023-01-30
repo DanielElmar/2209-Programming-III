@@ -1,0 +1,94 @@
+Q1: 
+2 + 2 + 2 + 2
+A differetn way is to do 2 * x instead of x + x
+This is more effecient as the exspanded function is 2 * 2 * x, wich is shorter and easy to compute due to bit shifts
+
+Q2
+sum (x:[]) = x 
+x + sum []
+sum [] = x
+x + x
+
+
+Q5
+Replaceing <= with < when defining ls will cause the quicksort algrothium to remove repeated values from the list in the result
+
+Q6
+ghci> 2^3*4
+32
+ghci> (2^3)*4
+32
+ghci> 2*3+4*5
+26
+ghci> (2*3)+(4*5)
+26
+ghci> 2+(3*(4^5))
+3074
+ghci> 2+3*4^5
+3074
+ghci> 2^2+2^2
+8
+ghci> (2^2)+(2^2)
+8
+
+Q8
+
+['a','b','c']		[Char] / List	
+
+('a','b','c')		(Char, Char, Char) / tuples / Set of arguments
+
+['a',3,True]		No type
+
+('a',3,True)		Num b => (Char, b, Bool) / tuples / Set of arguments
+
+[ (False, '0'), (True,'1')]	[(Bool, Char)]
+
+( [True,False] , ['0','1'] )	([Bool], [Char])
+
+[tail, init, reverse]		[[a] -> [a]] 
+
+[]				[a]
+
+2 : 3 : [] : 4 : 5 : []		Num [a] => [[a]]
+
+Kinda fucky, given the fist list has  a number in it, its type will be [[a]] (but not really coz the : function requires a number itsself not a list containing a number) 
+
+[] : []				[[a]]
+
+
+Q9
+
+[true]:: [Bool]
+
+[[1,2,3]]:: [[Int]]
+
+add a b c = (a::Int) + (b::Int) + (c::Int)
+add :: Int -> Int -> Int -> Int
+
+copy a = (a,a)
+copy :: a -> (a,a)
+
+apply f a = f a 
+apply :: (a -> b) -> a -> b
+apply takes 2 arguments one is (a -> b) which is itself a function which takes 1 argument, and a 2nd argument a, b is then returned from apply. Haskell knows f only takes 1 argument because we only gave it 1 argument ( f a (after the equals sign))
+
+
+explode :: String -> [Char]
+explode x = x 
+A String is a list of Chars so explode can just return itself, but its type def will be too genral, so we can use the function decrelation to define explode to take a String and return a list of Chars
+explode :: String -> [Char]
+
+
+What are the types of the following functions?
+
+second xs = head (tail xs)
+
+swap (x,y) = (y,x)
+
+pair x y = (x,y)
+
+double x = x*2
+
+palindrome xs = reverse xs == xs
+
+twice f x = f ( f x )
